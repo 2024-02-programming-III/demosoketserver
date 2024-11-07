@@ -1,0 +1,36 @@
+@startuml
+participant Main
+participant ServerSocket
+participant Socket
+participant InputStream
+participant OutputStream
+
+Main -> ServerSocket: new ServerSocket(port)
+activate ServerSocket
+Main -> ServerSocket: accept()
+activate ServerSocket
+ServerSocket --> Main: Socket
+deactivate ServerSocket
+Main -> Socket: getInputStream()
+activate Socket
+Socket --> Main: InputStream
+deactivate Socket
+Main -> Socket: getOutputStream()
+activate Socket
+Socket --> Main: OutputStream
+deactivate Socket
+Main -> InputStream: read(request)
+activate InputStream
+InputStream --> Main: request data
+deactivate InputStream
+Main -> Main: process request
+Main -> OutputStream: write(response)
+activate OutputStream
+deactivate OutputStream
+Main -> Socket: close()
+activate Socket
+deactivate Socket
+Main -> ServerSocket: close()
+activate ServerSocket
+deactivate ServerSocket
+@enduml
