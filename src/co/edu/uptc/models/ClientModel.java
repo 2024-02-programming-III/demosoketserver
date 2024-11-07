@@ -1,5 +1,8 @@
 package co.edu.uptc.models;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ClientModel {
@@ -13,4 +16,9 @@ public class ClientModel {
         System.out.println("Client id: "+id);
     }
     
+  public void sendMessage(String value) throws IOException{
+     PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+     out.println(value);      
+  }
+
 }

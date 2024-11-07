@@ -5,6 +5,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import co.edu.uptc.helpers.UtilThread;
+
 public class AdminClients {
     
   private ArrayList<ClientModel> clients;
@@ -32,12 +34,44 @@ public class AdminClients {
 
 
   public void acceptClients() throws IOException{
-    while (true) {
+    Thread thread = new Thread(new Runnable() {
+
+        @Override
+        public void run() {
+            while (true) {                        
+                    try {
+                        acceptClient();
+                    } catch (IOException e) {                        
+                    }
+                
+            }
         
-        acceptClient();
-    }
+        }
+        
+    });
+    thread.start();
+    
   }
 
+  public void sendMessageToAll() throws IOException{
+    Thread thread = new Thread(new Runnable() {
 
+        @Override
+        public void run() {
+            while (true){
+            for (ClientModel clientModel : clients) {
+                try {
+                    clientModel.sendMessage("CLientes conectados: "+clients.size());
+                } catch (IOException e) {                    
+                }
+            }
+            UtilThread.sleep(3000);
+        }
+        }
+        
+    });
+    thread.start();
+     
+  }
 
 }
